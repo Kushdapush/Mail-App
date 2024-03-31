@@ -4,12 +4,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <title>Add a Mail Address</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f8ff;
+            /* Light blue */
+        }
 
+        h1 {
+            text-align: center;
+            color: #3b82f6;
+            /* Light blue with a hint of purple */
+        }
+
+        form {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            /* Light gray border */
+            border-radius: 5px;
+            background-color: #e8f0fe;
+            /* Lighter blue */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 5px;
+            /* Light gray border */
+            border-radius: 5px;
+        }
+
+        button {
+            background-color: #2980b9;
+            /* Calming blue */
+            color: white;
+            padding: 10px 20px;
+            width: 70px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            position: relative;
+            top: -50%;
+            left: 35%;
+
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Add a mail address</h1>
+    <h1>Add a Mail Address</h1>
     <form action="/add" method="post">
         <input type="text" name="newReceiver" placeholder="New Receiver" required>
         <button type="submit">Add</button>
