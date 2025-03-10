@@ -1,14 +1,19 @@
 const nodemailer = require('nodemailer');
-const express = require('express')
-const bodyParser = require('body-parser')
+const express = require('express');
+const bodyParser = require('body-parser');
+const multer = require('multer');
+const csv = require('csv-parser');
+const fs = require('fs');
 const app = express();
 require("dotenv").config();
-const PORT = "3000"
+const PORT = "3000";
 const receivers = ['kushagragupta625@gmail.com'];
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
+
+const upload = multer({ dest: 'uploads/' });
 
 app.post('/add', (req, res) => {
     const newReceiver = req.body.newReceiver;
@@ -16,9 +21,25 @@ app.post('/add', (req, res) => {
     res.redirect('/sending');
 });
 
+app.post('/upload', upload.single('emailList'), (req, res) => {
+    const filePath = req.file.path;
+    fs.createReadStream(filePath)
+        .pipe(csv())
+        .on('data', (row) => {
+            if (row.email) {
+                receivers.push(row.email);
+            }
+        })
+        .on('end', () => {
+            fs.unlinkSync(filePath); // Remove the file after processing
+            res.redirect('/sending');
+        });
+});
+
 app.get('/', (req, res) => {
     res.render('index');
 });
+
 app.get("/sending", (req, res) => {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -46,6 +67,7 @@ app.get("/sending", (req, res) => {
     }
     res.redirect('/');
 });
+
 app.listen(PORT, () => {
     console.log("We are live!.. ");
 });
